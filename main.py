@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import numbers
 from collections import Counter
 from itertools import product
-
+np.random.seed(175854)
 class distanceMetric(Enum):
     Chebyshev  = 0
     Euclidean  = 1 
     Manhattan = 2
-    Minkowski_P3 = 3
+    Minkowski_P3 = 11
 
 def randomlyDistributedPoints(plane_size, num_of_points):
     assert isinstance(plane_size, numbers.Number) and isinstance(num_of_points, numbers.Number)
@@ -72,13 +72,14 @@ def moveCentroids(points, centroids,best_centroid_list, best_centroid_set,  type
 
 def main(plane_size, num_of_points, num_of_centroids):
 
-    fig = plt.figure()
+    fig, ax = plt.subplots()
     plt.xlim(0,plane_size)
     plt.ylim(0,plane_size)
     fig.tight_layout()
+    ax.set_aspect('equal', adjustable='box')
     original_points_x, original_points_y = randomlyDistributedPoints(plane_size, num_of_points)
     original_centroid_x, original_centroid_y = initializeCentroids(plane_size, num_of_centroids)
-    
+
     colors = ['b', 'g', 'c', 'm', 'y', 'k']
 
     for metricType in distanceMetric:
@@ -97,12 +98,14 @@ def main(plane_size, num_of_points, num_of_centroids):
 
             cluster_names = [f'K-{i}' for i in range(len(best_centroid_set))]
             color_map = {best_centroid_set[i] : colors[np.mod(i,len(colors))] for i in range(len(cluster_names))}
-            plt.clf()
+            plt.cla()
+           
             for i, point in enumerate(tuple(zip(*(points_x, points_y)))):
                 color = color_map[best_centroid_set[best_centroid_set.index(best_centroid_list[i])]]
                 plt.scatter(point[0], point[1], c=color)
 
             plt.scatter(centroid_x,centroid_y, c='red')
+            
             plt.savefig(f'plots/{metricType.name}/step_{step}.png')
 
             step+=1
