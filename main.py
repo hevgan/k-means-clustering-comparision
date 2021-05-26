@@ -117,5 +117,5 @@ def main(plane_size, num_of_points, num_of_centroids):
 
 
 if __name__ == '__main__':
-    main(plane_size = 1000, num_of_points = 100, num_of_centroids = 11)
+    main(plane_size = 1000, num_of_points = 100, num_of_centroids = 6)
     input()
